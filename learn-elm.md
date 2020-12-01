@@ -69,3 +69,34 @@ What I don't like right now is the syntax for comments. I mean
 multi-line comments is looking really odd. But probably that
 is just personal taste.
 
+## 01/12/2020 AdventOfCode Elm - First day
+It is advent! I completely forgot about the date and as usual there is
+the [AdventOfCode 2020](adventofcode.com/2020/) challenge, where each day a new
+puzzle is published. Thanks to [Y0hy0h](https://github.com/Y0hy0h/) for mentioning it
+to me. The solution for the first day is here:
+```elm
+find : List Int -> Maybe (Int, Int)
+find list = 
+    case list of
+        x :: rest -> rest
+          |> List.filter (\y -> x+y == 2020)                 
+          |> List.head
+          |> map (\y -> (x, y)) 
+          |> orElse (find rest)
+        _ -> Nothing
+```
+
+and 
+
+```elm
+find : List Int -> Maybe (Int, Int, Int)
+find list = 
+    case list of
+        x :: rest -> rest
+          |> uniquePairs
+          |> List.filter (\y -> x+(Tuple.first y)+(Tuple.second y) == 2020) 
+          |> List.head
+          |> Maybe.map (\y -> (x, (Tuple.first y), (Tuple.second y)))
+          |> orElse (find rest)
+        _ -> Nothing
+```
